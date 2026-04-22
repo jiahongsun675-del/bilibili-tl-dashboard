@@ -102,10 +102,10 @@ def process_rows(rows):
         bvid = extract_bvid(row[16], row[3])
 
         result.append({
-            'uploader':     str(row[4]  or '').strip(),
+            'upName':       str(row[4]  or '').strip(),
             'model':        model,
-            'category':     str(row[17] or '').strip(),
-            'type':         str(row[7]  or '').strip(),
+            'upCat':        str(row[17] or '').strip(),
+            'targetType':   str(row[7]  or '').strip(),
             'quarter':      quarter,
             'date':         excel_date(row[2]),
             'views':        views,
