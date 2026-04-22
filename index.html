@@ -141,7 +141,7 @@ tr:hover td{background:#f8fafc}
       <div class="chart-wrap" style="height:260px"><canvas id="bubbleChart"></canvas></div>
     </div>
     <div class="section" style="margin-bottom:0">
-      <h2><span class="bar"></span>UP主分类对比（CPM & 互动率）</h2>
+      <h2><span class="bar"></span>UP主分类对比（CPM & CPE）</h2>
       <div class="chart-wrap" style="height:260px"><canvas id="catChart"></canvas></div>
     </div>
   </div>
@@ -343,22 +343,22 @@ function renderCat(rows){
   const g=groupBy(rows,r=>r.upCat);
   const cats=Object.keys(g).sort();
   const cpms=cats.map(c=>kpi(g[c]).cpm);
-  const irs=cats.map(c=>kpi(g[c]).ir*100);
+  const cpes=cats.map(c=>kpi(g[c]).cpe);
   const ctx=document.getElementById('catChart').getContext('2d');
   charts['catChart']=new Chart(ctx,{
     data:{labels:cats,datasets:[
       {type:'bar', label:'CPM (¥)',data:cpms,backgroundColor:'rgba(0,161,214,.75)',yAxisID:'y',borderRadius:4},
-      {type:'line',label:'互动率 (%)',data:irs,borderColor:'#FF77AA',backgroundColor:'transparent',yAxisID:'y2',tension:.3,pointRadius:5,borderWidth:2},
+      {type:'line',label:'CPE (¥)',data:cpes,borderColor:'#FF77AA',backgroundColor:'transparent',yAxisID:'y2',tension:.3,pointRadius:5,borderWidth:2},
     ]},
     options:{
       responsive:true,maintainAspectRatio:false,
       plugins:{legend:{labels:{font:{size:11}}},tooltip:{callbacks:{
-        label:ctx=>ctx.dataset.label+'：'+(ctx.dataset.yAxisID==='y2'?fmt(ctx.raw,2)+'%':'¥'+fmt(ctx.raw,2))
+        label:ctx=>'¥'+fmt(ctx.raw,2)
       }}},
       scales:{
         x:{ticks:{font:{size:12}}},
         y:{position:'left',ticks:{callback:v=>'¥'+fmt(v,0),font:{size:10}},title:{display:true,text:'CPM',font:{size:10}}},
-        y2:{position:'right',ticks:{callback:v=>v.toFixed(2)+'%',font:{size:10}},title:{display:true,text:'互动率',font:{size:10}},grid:{display:false}},
+        y2:{position:'right',ticks:{callback:v=>'¥'+fmt(v,1),font:{size:10}},title:{display:true,text:'CPE',font:{size:10}},grid:{display:false}},
       }
     }
   });
